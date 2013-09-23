@@ -1,6 +1,31 @@
 = Installing CUFTS & Godot on Ubuntu =
 These instructions are currently for Ubuntu 12.04 (Precise Pangolin)
-* Edit your local '''.bashrc''' file and remove your local '''/root/perl5''' folder and '''/root/.cpan''' folder if you have them.
+== Prerequisites ==
+ apt-get install subversion unzip zip build-essential lynx ncftp ftp apache2 apache2-mpm-prefork postgresql postgresql-client postgresql-contrib postgresql-server-dev-all libapache2-mod-perl2 libxml-dom-perl libclass-accessor-perl libclass-dbi-perl libexception-class-perl libexception-class-dbi-perl libtemplate-perl libcatalyst-perl libperl6-export-attrs-perl libclass-dbi-sweet-perl libclass-dbi-plugin-abstractcount-perl libclass-dbi-plugin-type-perl libmarc-record-perl libdatetime-perl libdate-calc-perl libmime-lite-perl libunicode-string-perl libdatetime-format-natural-perl libhtml-fillinform-perl libdata-formvalidator-perl libcatalyst-modules-extra-perl libstring-approx-perl libmarc-charset-perl libdata-uuid-libuuid-perl libdatetime-format-iso8601-perl libnet-ldap-perl libhtml-strip-perl libdbix-class-timestamp-perl libbusiness-isbn-perl libapache-dbi-perl libapache-session-perl libnet-z3950-zoom-perl libparallel-forkmanager-perl libtext-template-perl libmarc-xml-perl libbusiness-issn-perl libxml-parser-lite-tree-perl
+=== CPAN ===
+* Configure CPAN accepting the defaults
+ cpan
+
+ CPAN.pm requires configuration, but most of it can be done automatically.
+ If you answer 'no' below, you will enter an interactive dialog for each
+ configuration option instead.
+
+ Would you like to configure as much as possible automatically? [yes] 
+* Once you reach the CPAN shell run the following commands.  You may have to hit enter a few times, the default options should be fine.
+ o conf prerequisites_policy follow
+ o conf build_requires_install_policy yes
+ o conf commit
+ install Bundle::CPAN
+ install Class::DBI::Plugin::CountSearch String::Util Data::UUID Biblio::COUNTER Chart::OFC URI::OpenURL Catalyst::Plugin::FillInForm XML::RAI Text::Striphigh  
+* Once this is complete you can exit the CPAN shell
+ exit
+ 
+==  CUFTS Installation ==
+* Download CUFTS 
+ svn co http://lib-code.lib.sfu.ca/svn/CUFTS/trunk/CUFTS /usr/local/CUFTS
+ cd usr/local/CUFTS
+
+* As root, edit your local '''.bashrc''' file and remove your local '''/root/perl5''' folder and '''/root/.cpan''' folder if you have them.
  export PERL_LOCAL_LIB_ROOT="/usr/local/cpan";
  export PERL_MB_OPT="--install_base /usr/local/cpan";
  export PERL_MM_OPT="INSTALL_BASE=/root/local/cpan";
