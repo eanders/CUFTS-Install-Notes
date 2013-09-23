@@ -15,6 +15,7 @@ These instructions are currently for Ubuntu 12.04 (Precise Pangolin)
  o conf prerequisites_policy follow
  o conf build_requires_install_policy yes
  o conf commit
+ upgrade /(.*)/
  install Bundle::CPAN
  install Class::DBI::Plugin::CountSearch String::Util Data::UUID Biblio::COUNTER Chart::OFC URI::OpenURL Catalyst::Plugin::FillInForm XML::RAI Text::Striphigh  
 * Once this is complete you can exit the CPAN shell
@@ -48,6 +49,18 @@ These instructions are currently for Ubuntu 12.04 (Precise Pangolin)
 * Download CUFTS 
  svn co http://lib-code.lib.sfu.ca/svn/CUFTS/trunk/CUFTS /usr/local/CUFTS
  cd usr/local/CUFTS
+=== Pre-installation Fixes ===
+* Edit '''/usr/local/CUFTS/CRDB/cufts_crdb.yml''' that happens to have the db user hard coded and set it to www-data
+	connect_info:
+			- 'dbi:Pg:dbname=CUFTS3'
+			- 'www-data'
+			- ''
+			- AutoCommit: 1
+* Edit '''lib/CUFTS/AdvancedConfig.pm'''', replace all instances of '''http://localhost:3000''' with your server address (remove the :3000) ie. http://server.institution.edu
+
+== Check Dependencies ==
+* CUFTS provides a relatively accurate preflight script
+ perl util/install.pl -m
 
 * As root, edit your local '''.bashrc''' file and remove your local '''/root/perl5''' folder and '''/root/.cpan''' folder if you have them.
  export PERL_LOCAL_LIB_ROOT="/usr/local/cpan";
