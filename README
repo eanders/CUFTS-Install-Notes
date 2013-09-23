@@ -1,0 +1,30 @@
+= Installing CUFTS & Godot on Ubuntu =
+These instructions are currently for Ubuntu 12.04 (Precise Pangolin)
+* Edit your local '''.bashrc''' file and remove your local '''/root/perl5''' folder and '''/root/.cpan''' folder if you have them.
+ export PERL_LOCAL_LIB_ROOT="/usr/local/cpan";
+ export PERL_MB_OPT="--install_base /usr/local/cpan";
+ export PERL_MM_OPT="INSTALL_BASE=/root/local/cpan";
+ export PERL5LIB="/usr/local/cpan/lib/perl5/x86_64-linux-gnu-thread-multi:/usr/local/cpan/lib/perl5";
+ export PATH="/usr/local/cpan/bin:$PATH";
+* Copy the '''/etc/perl/CPAN/Config.pm''' file from somewhere else.
+ mkdir /usr/local/cpan
+* Edit  '''/etc/perl/CPAN/Config.pm'''
+  'makepl_arg' => q[INSTALL_BASE=/usr/local/cpan],
+  'mbuild_arg' => q['--install_base=/usr/local/cpan'],
+* Tell Apache about the CPAN versions of modules.  Edit '''/etc/apache2/conf.d/cufts.conf''' 
+ PerlSwitches -I/usr/local/CUFTS/lib -I/usr/local/CUFTS/MaintTool/lib -I/usr/local/CUFTS/Resolver/lib -I/usr/local/CUb -I/usr/local/CUFTS/CRDB/lib -I/usr/local/cpan/lib/perl5
+* Do what we can with apt
+ apt-get install libclass-accessor-perl libclass-dbi-perl libexception-class-perl libexception-class-dbi-perl libtemplate-perl libcatalyst-perl libperl6-export-attrs-perl libclass-dbi-sweet-perl libclass-dbi-plugin-abstractcount-perl libclass-dbi-plugin-type-perl libmarc-record-perl libdatetime-perl libdate-calc-perl libmime-lite-perl libunicode-string-perl libdatetime-format-natural-perl libhtml-fillinform-perl libdata-formvalidator-perl libcatalyst-modules-extra-perl libstring-approx-perl libmarc-charset-perl libdata-uuid-libuuid-perl libdatetime-format-iso8601-perl libnet-ldap-perl libhtml-strip-perl libdbix-class-timestamp-perl libbusiness-isbn-perl libapache-dbi-perl libapache-session-perl libnet-z3950-zoom-perl libparallel-forkmanager-perl libtext-template-perl libmarc-xml-perl libbusiness-issn-perl libxml-parser-lite-tree-perl
+* Install some modules through CPAN
+ cpan 
+ install Class::DBI::Plugin::CountSearch String::Util Data::UUID Biblio::COUNTER Chart::OFC URI::OpenURL Catalyst::Plugin::FillInForm XML::RAI Text::Striphigh  
+ q 
+* You'll need some Yaz
+* Add the yaz repository to '''/etc/apt/sources.list.d/ftp.indexdata.dk.sources.list''' 
+ deb http://ftp.indexdata.dk/ubuntu precise main
+ deb-src http://ftp.indexdata.dk/ubuntu precise main
+* Add the yaz key
+ wget http://ftp.indexdata.dk/debian/indexdata.asc
+ apt-key add indexdata.asc
+ apt-get update
+ apt-get install libyaz4-dev
