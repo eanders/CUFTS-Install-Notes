@@ -28,3 +28,4 @@ These instructions are currently for Ubuntu 12.04 (Precise Pangolin)
  apt-key add indexdata.asc
  apt-get update
  apt-get install libyaz4-dev
+ 
