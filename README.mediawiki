@@ -1,7 +1,7 @@
 = Installing CUFTS & Godot on Ubuntu =
 These instructions are currently for Ubuntu 12.04 (Precise Pangolin)
 == Prerequisites ==
- apt-get install subversion unzip zip build-essential lynx ncftp ftp apache2 apache2-mpm-prefork postgresql postgresql-client postgresql-contrib postgresql-server-dev-all libapache2-mod-perl2 libxml-dom-perl libclass-accessor-perl libclass-dbi-perl libexception-class-perl libexception-class-dbi-perl libtemplate-perl libcatalyst-perl libperl6-export-attrs-perl libclass-dbi-sweet-perl libclass-dbi-plugin-abstractcount-perl libclass-dbi-plugin-type-perl libmarc-record-perl libdatetime-perl libdate-calc-perl libmime-lite-perl libunicode-string-perl libdatetime-format-natural-perl libhtml-fillinform-perl libdata-formvalidator-perl libcatalyst-modules-extra-perl libstring-approx-perl libmarc-charset-perl libdata-uuid-libuuid-perl libdatetime-format-iso8601-perl libnet-ldap-perl libhtml-strip-perl libdbix-class-timestamp-perl libbusiness-isbn-perl libapache-dbi-perl libapache-session-perl libnet-z3950-zoom-perl libparallel-forkmanager-perl libtext-template-perl libmarc-xml-perl libbusiness-issn-perl libxml-parser-lite-tree-perl
+ apt-get install subversion unzip zip build-essential lynx ncftp ftp apache2 apache2-mpm-prefork postgresql postgresql-client postgresql-contrib postgresql-server-dev-all libapache2-mod-perl2 libxml-dom-perl libclass-accessor-perl libclass-dbi-perl libexception-class-perl libexception-class-dbi-perl libtemplate-perl libcatalyst-perl libperl6-export-attrs-perl libclass-dbi-sweet-perl libclass-dbi-plugin-abstractcount-perl libclass-dbi-plugin-type-perl libmarc-record-perl libdatetime-perl libdate-calc-perl libmime-lite-perl libunicode-string-perl libdatetime-format-natural-perl libhtml-fillinform-perl libdata-formvalidator-perl libcatalyst-modules-extra-perl libstring-approx-perl libmarc-charset-perl libdata-uuid-libuuid-perl libdatetime-format-iso8601-perl libnet-ldap-perl libhtml-strip-perl libdbix-class-timestamp-perl libbusiness-isbn-perl libapache-dbi-perl libapache-session-perl libnet-z3950-zoom-perl libparallel-forkmanager-perl libtext-template-perl libmarc-xml-perl libbusiness-issn-perl libxml-parser-lite-tree-perl libyaz4-dev
 === CPAN ===
 * Configure CPAN accepting the defaults
  cpan
@@ -19,7 +19,31 @@ These instructions are currently for Ubuntu 12.04 (Precise Pangolin)
  install Class::DBI::Plugin::CountSearch String::Util Data::UUID Biblio::COUNTER Chart::OFC URI::OpenURL Catalyst::Plugin::FillInForm XML::RAI Text::Striphigh  
 * Once this is complete you can exit the CPAN shell
  exit
- 
+== Postgres ==
+* Make sure local users have access to the postgres database.  Depending on your setup, you may need to tighten these permissions.  '''Edit /etc/postgresql/9.1/main/pg_hba.conf''' (your version number may differ) and change these two lines to from peer and md5 to '''trust'''
+ # "local" is for Unix domain socket connections only
+ #local   all             all                                     peer
+ local   all             all                                     trust
+ # IPv4 local connections:
+ #host    all             all             127.0.0.1/32            md5
+ host    all             all             127.0.0.1/32            trust
+* Restart Postgres
+ /etc/init.d/postgresql restart
+* Create an empty database
+ su postgres
+ createdb CUFTS3
+* Create some users and grant some permissions within postgres (note you are still the linux postgres user)
+ psql
+ create user root;
+ alter role root with superuser;
+ alter role root with createrole;
+ alter role root with createdb;
+ create user "www-data";
+ alter role "www-data" with superuser;
+ alter role "www-data" with createrole;
+ alter role "www-data" with createdb;
+ \q
+ exit
 ==  CUFTS Installation ==
 * Download CUFTS 
  svn co http://lib-code.lib.sfu.ca/svn/CUFTS/trunk/CUFTS /usr/local/CUFTS
