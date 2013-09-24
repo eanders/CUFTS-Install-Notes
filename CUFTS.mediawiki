@@ -73,5 +73,5 @@ These instructions are currently for Ubuntu 12.04 (Precise Pangolin)
 * Restart Apache
  service apache2 restart
 === Server Access ===
-* You should now be able to access the CUFTS Admin via:
+* You should now be able to access the CUFTS Admin via the following url.  The username and password are '''admin'''
  http://server.institution.edu/CUFTS/MaintTool
