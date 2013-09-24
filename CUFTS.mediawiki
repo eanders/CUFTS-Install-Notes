@@ -51,22 +51,22 @@ These instructions are currently for Ubuntu 12.04 (Precise Pangolin)
  * Run the installer. 
  perl util/install.pl
  * You can accept the defaults for most options, you'll probably want to adjust the following:
- 	CUFTS Database user: tholbroo
-	[tholbroo]: www-data
-	...
-	Mail should be from: 
-	[]: techsupport@marlboro.edu
-	...
-	User which the web server runs as?
-	[nobody]: www-data
-	...
-	Is your web server running Apache 1.3.x w/ mod_perl?
-	[Y/n]: n
-	Is your web server running Apache 2.0.x w/ mod_perl 2.x?
-	[Y/n]: y
-	...
-	Drop database?
-  [y/N]: y
+ CUFTS Database user: tholbroo
+ [tholbroo]: www-data
+ ...
+ Mail should be from: 
+ []: techsupport@marlboro.edu
+ ...
+ User which the web server runs as?
+ [nobody]: www-data
+ ...
+ Is your web server running Apache 1.3.x w/ mod_perl?
+ [Y/n]: n
+ Is your web server running Apache 2.0.x w/ mod_perl 2.x?
+ [Y/n]: y
+ ...
+ Drop database?
+ [y/N]: y
 
 * Ignore the note about adding an include to your apache config, do this instead, it's much more Ubuntu
  ln -s /usr/local/CUFTS/util/httpd.conf /etc/apache2/conf.d/cufts.conf
