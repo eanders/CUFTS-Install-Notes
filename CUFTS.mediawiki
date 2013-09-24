@@ -72,6 +72,11 @@ These instructions are currently for Ubuntu 12.04 (Precise Pangolin)
  ln -s /usr/local/CUFTS/util/httpd.conf /etc/apache2/conf.d/cufts.conf
 * Restart Apache
  service apache2 restart
+=== Initial Data Load ===
+* Download the latest complete knowledgebase from here http://cufts2.lib.sfu.ca/knowledgebase/
+* Import the knowledgebase
+ perl util/import_global_sync.pl /path/to/the/file/you/downloaded
+ 
 === Server Access ===
 * You should now be able to access the CUFTS Admin via the following url.  The username and password are '''admin'''
  http://server.institution.edu/CUFTS/MaintTool
