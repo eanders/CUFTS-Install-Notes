@@ -7,10 +7,10 @@ CUFTS is able to provide both an A-Z list of Journals and a subject based lookup
 * Back on the command line
  cd /usr/local/CUFTS 
 * Create '''/usr/local/CUFTS/lib/CUFTS/CJDB/Loader/MARC/sitekey.pm''', where '''sitekey''' is the key used when you created the site, with the following contents:
- package CUFTS::CJDB::Loader::MARC::serverkey;
+ package CUFTS::CJDB::Loader::MARC::sitekey;
  use base ('CUFTS::CJDB::Loader::MARC');
  1;
 * Run 
  perl util/update_cjdb.pl
 * The public interface for the CJDB should now be available here:
- http://server.marlboro.edu/CJDB/serverkey/
+ http://server.marlboro.edu/CJDB/sitekey/
