@@ -48,9 +48,9 @@ These instructions are currently for Ubuntu 12.04 (Precise Pangolin)
 * CUFTS provides a relatively accurate preflight script.  Depending on how out of date this document is, you may have additional perl modules to install.
  perl util/install.pl -m
 === Installation ===
- * Run the installer. 
+* Run the installer. 
  perl util/install.pl
- * You can accept the defaults for most options, you'll probably want to adjust the following:
+* You can accept the defaults for most options, you'll probably want to adjust the following:
  CUFTS Database user: tholbroo
  [tholbroo]: www-data
  ...
