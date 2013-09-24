@@ -2,7 +2,7 @@
 The CRDB is a subject based interface to the data in CUFTS. You will need a functional [https://github.com/eanders/CUFTS-Install-Notes/blob/master/CUFTS.mediawiki CUFTS] install before proceeding.
  cd /var/www/CUFTS
  chown -R www-data:www-data CRDB/root/
- 
+
 * Edit '''/usr/local/CUFTS/httpd.conf''' and add the following to the '''PerlSwitches''' line:
  -I/usr/local/CUFTS/CRDB/lib
 * Then place the following at the bottom of the file:
