@@ -1,5 +1,5 @@
-=CUFTS-Install-Notes=
-
+=CUFTS Install Notes=
+CUFTS is an Open Source Journal Management solution provided by the [http://researcher.sfu.ca Simon Fraser University Library]
 Installation notes for [https://github.com/eanders/CUFTS-Install-Notes/blob/master/CUFTS.mediawiki CUFTS] and Godot on Ubuntu
 
-The following documents describe how to get a basic CUFTS installation running.  In addition they cover setting up the CJDB, CRDB and Godot
+The following documents describe how to get a basic CUFTS installation running.  In addition they cover setting up the [https://github.com/eanders/CUFTS-Install-Notes/blob/master/CJDB.mediawiki CJDB], [https://github.com/eanders/CUFTS-Install-Notes/blob/master/CRDB.mediawiki CRDB] and Godot
