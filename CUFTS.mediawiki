@@ -1,0 +1,77 @@
+= Installing CUFTS & Godot on Ubuntu =
+These instructions are currently for Ubuntu 12.04 (Precise Pangolin)
+== Prerequisites ==
+ apt-get install subversion unzip zip build-essential cpanminus lynx ncftp ftp apache2 apache2-mpm-prefork postgresql postgresql-client postgresql-contrib postgresql-server-dev-all libapache2-mod-perl2 libxml-dom-perl libclass-accessor-perl libclass-dbi-perl libexception-class-perl libexception-class-dbi-perl libtemplate-perl libcatalyst-perl libperl6-export-attrs-perl libclass-dbi-sweet-perl libclass-dbi-plugin-abstractcount-perl libclass-dbi-plugin-type-perl libmarc-record-perl libdatetime-perl libdate-calc-perl libmime-lite-perl libunicode-string-perl libdatetime-format-natural-perl libhtml-fillinform-perl libdata-formvalidator-perl libcatalyst-modules-extra-perl libstring-approx-perl libmarc-charset-perl libdata-uuid-libuuid-perl libdatetime-format-iso8601-perl libnet-ldap-perl libhtml-strip-perl libdbix-class-timestamp-perl libbusiness-isbn-perl libapache-dbi-perl libapache-session-perl libnet-z3950-zoom-perl libparallel-forkmanager-perl libtext-template-perl libmarc-xml-perl libbusiness-issn-perl libxml-parser-lite-tree-perl libyaz4-dev liblist-compare-perl
+=== Additional Perl Modules ===
+ * Use your favorite Perl package manager to install the following, we're using cpanm
+ cpanm -i Class::DBI::Plugin::CountSearch String::Util Data::UUID Biblio::COUNTER Chart::OFC URI::OpenURL Catalyst::Plugin::FillInForm XML::RAI Text::Striphigh Catalyst::Plugin::FormValidator Catalyst::View::Download::CSV Class::DBI::Plugin::FastDelete Template::Plugin::JSON
+=== Postgres ===
+* Make sure local users have access to the postgres database.  Depending on your setup, you may need to tighten these permissions.  '''Edit /etc/postgresql/9.1/main/pg_hba.conf''' (your version number may differ) and change these two lines to from peer and md5 to '''trust'''
+ # "local" is for Unix domain socket connections only
+ #local   all             all                                     peer
+ local   all             all                                     trust
+ # IPv4 local connections:
+ #host    all             all             127.0.0.1/32            md5
+ host    all             all             127.0.0.1/32            trust
+* Restart Postgres
+ /etc/init.d/postgresql restart
+* Create an empty database
+ su postgres
+ cd
+ createdb CUFTS3
+* Create some users and grant some permissions within postgres (note you are still the linux postgres user)
+ psql
+ create user root;
+ alter role root with superuser;
+ alter role root with createrole;
+ alter role root with createdb;
+ create user "www-data";
+ alter role "www-data" with superuser;
+ alter role "www-data" with createrole;
+ alter role "www-data" with createdb;
+ \q
+ exit
+==  CUFTS Installation ==
+* Download CUFTS 
+ svn co http://lib-code.lib.sfu.ca/svn/CUFTS/trunk/CUFTS /usr/local/CUFTS
+ cd usr/local/CUFTS
+=== Pre-installation Fixes ===
+* Edit '''/usr/local/CUFTS/CRDB/cufts_crdb.yml''' that happens to have the db user hard coded and set it to www-data
+	connect_info:
+			- 'dbi:Pg:dbname=CUFTS3'
+			- 'www-data'
+			- ''
+			- AutoCommit: 1
+* Edit '''/usr/local/CUFTS/lib/CUFTS/AdvancedConfig.pm'''', replace all instances of '''http://localhost:3000''' with your server address (remove the :3000) ie. http://server.institution.edu
+
+=== Dependency Check ===
+* CUFTS provides a relatively accurate preflight script.  Depending on how out of date this document is, you may have additional perl modules to install.
+ perl util/install.pl -m
+=== Installation ===
+ * Run the installer. 
+ perl util/install.pl
+ * You can accept the defaults for most options, you'll probably want to adjust the following:
+ 	CUFTS Database user: tholbroo
+	[tholbroo]: www-data
+	...
+	Mail should be from: 
+	[]: techsupport@marlboro.edu
+	...
+	User which the web server runs as?
+	[nobody]: www-data
+	...
+	Is your web server running Apache 1.3.x w/ mod_perl?
+	[Y/n]: n
+	Is your web server running Apache 2.0.x w/ mod_perl 2.x?
+	[Y/n]: y
+	...
+	Drop database?
+  [y/N]: y
+
+* Ignore the note about adding an include to your apache config, do this instead, it's much more Ubuntu
+ ln -s /usr/local/CUFTS/util/httpd.conf /etc/apache2/conf.d/cufts.conf
+* Restart Apache
+ service apache2 restart
+=== Server Access ===
+* You should now be able to access the CUFTS Admin via:
+ http://server.institution.edu/CUFTS/MaintTool
