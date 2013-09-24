@@ -1,0 +1,65 @@
+=Godot Installation Instructions=
+Godot is an open source open URL resolver provided by [http://researcher.sfu.ca Simon Fraser University Library].  You will need a functional [https://github.com/eanders/CUFTS-Install-Notes/blob/master/CUFTS.mediawiki CUFTS] installation before proceeding.
+* Download Godot
+ cd /usr/local/
+ svn checkout http://lib-code.lib.sfu.ca/svn/godot/trunk godot
+== Dependencies ==
+ cpanm -i Text::Normalize::NACO
+ * Use the preflight to check for additional dependencies, at the time of this writing, there were none
+ cd /usr/local/godot
+ perl util/install.pl -m
+* You will be asked various questions by the installation script, you can accept most defaults, here are a few that you'll probably want to supply your own answers to:
+ ...
+ Do you want to use the current or the installation values as the default?
+ [C/i]: i
+ Default site key [BVAS]: sitekey
+ ...
+ URL for Citation Manager []: http://server.institution.edu/CUFTS/Resolver/sitekey                                      
+ URL for CUFTS server []: http://server.institution.edu/CUFTS/Resolver/sitekey
+ Email address for parser errors []: admin@institution.edu
+ Email address for general errors []: admin@institution.edu
+ Email address for error messages []: admin@institution.edu
+ ...
+ User which the web server runs as?
+ [nobody]: www-data
+ ...
+ Enter the full path for where the GODOT CGI files will be located.
+ It should be under the web tree, and the directory must be able to execute
+ CGI scripts:
+ 
+ []: /var/www/godot
+ Linking into web tree:
+ ...
+ Making a backup copy of
+ /usr/local/godot/GODOTConfig/lib/GODOTConfig/BasicConfig.pm in
+ /usr/local/godot/GODOTConfig/lib/GODOTConfig/BasicConfig.pm.backup.
+ Do you want to use the current or the installation values as the default?
+ [C/i]: i
+ ...
+ Database user: www-data
+ Database password: 
+ ...
+ User which the web server runs as?
+ [nobody]: www-data
+ ...
+ Enter the full path for where the GODOT CGI files will be located.
+ It should be under the web tree, and the directory must be able to execute
+ CGI scripts:
+ []: /var/www/GODOTConfig
+ ...
+ Enter the URL which will run the GODOT package 'hold_tab.cgi' script:
+ []: http://server.institution.edu/godot/hold_tab.cgi
+ Enter the URL which will run the GODOTConfig package 'config.cgi' script:
+ []: http://server.institution.edu/godot/config.cgi  
+* Connect Godot to Apache
+ ln -s /usr/local/godot/util/godot_httpd.conf /etc/apache2/conf.d/godot.conf
+* Install the data
+ perl util/install_db.pl 
+* Update the cache
+ perl util/update_cache.pl
+* Fix some file permissions
+ chown -R www-data GODOTConfig/templates/
+ chown -R www-data GODOT/templates/
+* Edit '''util/godot_para_server''' change where '''su godot''' to:
+ su www-data
+ 
