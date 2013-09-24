@@ -53,6 +53,9 @@ Godot is an open source open URL resolver provided by [http://researcher.sfu.ca 
  []: http://server.institution.edu/godot/config.cgi  
 * Connect Godot to Apache
  ln -s /usr/local/godot/util/godot_httpd.conf /etc/apache2/conf.d/godot.conf
+* There seems to be a hardcoded admin password that isn't documented.  Change the hash in '''/usr/local/godot/util/distrib/sql/demo_data.sql''' to:
+ adpexzg3FUZAk
+* Your admin password is now '''admin'''
 * Install the data
  perl util/install_db.pl 
 * Update the cache
@@ -62,4 +65,5 @@ Godot is an open source open URL resolver provided by [http://researcher.sfu.ca 
  chown -R www-data GODOT/templates/
 * Edit '''util/godot_para_server''' change where '''su godot''' to:
  su www-data
+
  
