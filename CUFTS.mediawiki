@@ -37,11 +37,11 @@ These instructions are currently for Ubuntu 12.04 (Precise Pangolin)
  cd usr/local/CUFTS
 === Pre-installation Fixes ===
 * Edit '''/usr/local/CUFTS/CRDB/cufts_crdb.yml''' that happens to have the db user hard coded and set it to www-data
-	connect_info:
-			- 'dbi:Pg:dbname=CUFTS3'
-			- 'www-data'
-			- ''
-			- AutoCommit: 1
+ 	connect_info:
+ 			- 'dbi:Pg:dbname=CUFTS3'
+ 			- 'www-data'
+ 			- ''
+ 			- AutoCommit: 1
 * Edit '''/usr/local/CUFTS/lib/CUFTS/AdvancedConfig.pm'''', replace all instances of '''http://localhost:3000''' with your server address (remove the :3000) ie. http://server.institution.edu
 
 === Dependency Check ===
