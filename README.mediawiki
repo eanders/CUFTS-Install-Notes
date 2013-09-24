@@ -1,0 +1,4 @@
+CUFTS-Install-Notes
+===================
+
+Installation notes for CUFTS and Godot on Ubuntu
