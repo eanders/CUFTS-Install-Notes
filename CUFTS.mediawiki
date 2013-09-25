@@ -80,3 +80,19 @@ These instructions are currently for Ubuntu 12.04 (Precise Pangolin)
 === Server Access ===
 * You should now be able to access the CUFTS Admin via the following url.  The username and password are '''admin'''
  http://server.institution.edu/CUFTS/MaintTool
+=== Periodic Tasks ===
+CUFTS needs various scripts to run nightly.  '''update_cjdb.pl''' will check for changes from the administrative interface and rebuild the database as necessary.  In addition it's good practice to rebuild your journal authority and title lists nightly.
+* Here is the script we call nightly via cron:
+ #! /bin/bash
+ cd /usr/local/CUFTS
+ echo "==============Update CJDB=============="
+ /usr/bin/perl util/update_cjdb.pl
+ 
+ echo "==============Build Journal Auth=============="
+ /usr/bin/perl util/build_journals_auth.pl
+ 
+ echo "==============Updating Titles=============="
+ /usr/bin/perl util/title_list_updater.pl
+
+* In addition, you will want to update your knowlegebase monthly.  New knowledgebases are usually released on the first of the month, but occationally there are issue with the first release and it is safer to wait a few days. You should download the most recent [http://cufts2.lib.sfu.ca/knowledgebase/ knowledgebase] update (not complete) and then run:
+ perl util/import_global_sync.pl /path/to/downloaded/file
