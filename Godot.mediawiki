@@ -8,6 +8,12 @@ Godot is an open source open URL resolver provided by [http://researcher.sfu.ca 
  * Use the preflight to check for additional dependencies, at the time of this writing, there were none
  cd /usr/local/godot
  perl util/install.pl -m
+== Bug Fixes ==
+* At the time of writing, there is a bug in the demo sql data (and if you don't install the demo data you have to manually add your admin account).  To fix the first problem, replace '''adx5P1MEHU372''' in '''/usr/local/godot/util/distrib/sql/demo_data.sql''' with:
+ {{admin_password}}
+
+== Installation ==
+ perl util/install.pl 
 * You will be asked various questions by the installation script, you can accept most defaults, here are a few that you'll probably want to supply your own answers to:
  ...
  Do you want to use the current or the installation values as the default?
@@ -53,17 +59,28 @@ Godot is an open source open URL resolver provided by [http://researcher.sfu.ca 
  []: http://server.institution.edu/godot/config.cgi  
 * Connect Godot to Apache
  ln -s /usr/local/godot/util/godot_httpd.conf /etc/apache2/conf.d/godot.conf
-* There seems to be a hardcoded admin password that isn't documented.  Change the hash in '''/usr/local/godot/util/distrib/sql/demo_data.sql''' to:
- adpexzg3FUZAk
-* Your admin password is now '''admin'''
 * Install the data
- perl util/install_db.pl 
+ perl util/install_db.pl
+* You can accept most to the default values, but you'll want to set an admin password and email address.
 * Update the cache
  perl util/update_cache.pl
 * Fix some file permissions
  chown -R www-data GODOTConfig/templates/
  chown -R www-data GODOT/templates/
+* Restart Apache
+ service apache2 restart
 * Edit '''util/godot_para_server''' change where '''su godot''' to:
  su www-data
-
- 
+* Set the para server to start on boot
+ ln -s /usr/local/godot/util/godot_para_server /etc/init.d/godot_para_server
+ update-rc.d godot_para_server defaults
+* Login to the admin interface and setup a site with the sitekey chosen above.
+ http://server.institution.edu/GODOTConfig/config.cgi
+* Go to '''System Administration''' --> '''Sites''' --> ''New site'''
+* After creating your site start the para server
+ /etc/init.d/godot_para_server start
+* The front-end interface should be available at 
+ http://server.institution.edu/godot/
+== Additional Notes ==
+* At the time of writing, the para server often fails to start on boot, so we've setup a script that starts it every 10 minutes, which it doesn't seem to mind
+ */10 * * * * root /etc/init.d/godot_para_server start
